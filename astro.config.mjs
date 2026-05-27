@@ -1,8 +1,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://elephants.partners',
-  base: '/',
+  site: process.env.SITE_URL || 'https://elephants.partners',
+  base: process.env.BASE_PATH || '/',
   integrations: [],
   output: 'static',
   compressHTML: true,
