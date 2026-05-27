@@ -1,0 +1,404 @@
+---
+import type { Translations } from '@/i18n/en';
+
+interface Props { t: Translations }
+const { t } = Astro.props;
+
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<section class="testimonials section" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <header class="section-header">
+      <span class="eyebrow">{t.testimonials.eyebrow}</span>
+      <span class="rule"></span>
+      <h2 id="testimonials-heading" class="heading-2">
+        {t.testimonials.heading[0]}<br>
+        <span class="accent">{t.testimonials.heading[1]}</span>
+      </h2>
+      <p class="section-desc body-lg" style="color: var(--color-text-muted)">
+        {t.testimonials.description}
+      </p>
+    </header>
+
+    <div class="testimonials-carousel" data-carousel>
+      <ul class="testimonials-track" role="list" data-carousel-track>
+        {t.testimonials.items.map(({ quote, name, role, company, avatar }) => (
+          <li class="testimonial-card">
+            <div class="testimonial-photo-wrap">
+              <img
+                src={`${basePath}/assets/${avatar}`}
+                alt={name}
+                class="testimonial-photo"
+                loading="lazy"
+                decoding="async"
+                width="320"
+                height="400"
+              />
+            </div>
+            <div class="testimonial-body">
+              <svg class="testimonial-quote-mark" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M7.17 6A5.17 5.17 0 002 11.17V18h6v-6.83H4.83A2.83 2.83 0 017.17 8.34V6zM17.17 6A5.17 5.17 0 0012 11.17V18h6v-6.83h-3.17A2.83 2.83 0 0117.17 8.34V6z"/>
+              </svg>
+              <p class="testimonial-quote">{quote}</p>
+              <div class="testimonial-author">
+                <strong class="testimonial-name">{name}</strong>
+                <span class="testimonial-role">{role}</span>
+                <span class="testimonial-company">{company}</span>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div class="carousel-controls">
+        <button class="carousel-btn" type="button" aria-label="Previous testimonial" data-carousel-prev>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="carousel-dots" data-carousel-dots aria-hidden="true"></div>
+        <button class="carousel-btn" type="button" aria-label="Next testimonial" data-carousel-next>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initCarousels() {
+    const carousels = document.querySelectorAll<HTMLElement>('[data-carousel]');
+    carousels.forEach((carousel) => {
+      const track = carousel.querySelector<HTMLElement>('[data-carousel-track]');
+      const prevBtn = carousel.querySelector<HTMLButtonElement>('[data-carousel-prev]');
+      const nextBtn = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]');
+      const dotsContainer = carousel.querySelector<HTMLElement>('[data-carousel-dots]');
+      if (!track || !prevBtn || !nextBtn) return;
+
+      const cards = Array.from(track.querySelectorAll<HTMLElement>('.testimonial-card'));
+      if (!cards.length) return;
+
+      const getStep = () => {
+        const cardWidth = cards[0].getBoundingClientRect().width;
+        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
+        return cardWidth + gap;
+      };
+
+      const scrollByCard = (direction: 1 | -1) => {
+        track.scrollBy({ left: direction * getStep(), behavior: 'smooth' });
+      };
+
+      prevBtn.addEventListener('click', () => scrollByCard(-1));
+      nextBtn.addEventListener('click', () => scrollByCard(1));
+
+      // Build dots
+      if (dotsContainer) {
+        cards.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'carousel-dot';
+          dot.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
+          dot.addEventListener('click', () => {
+            track.scrollTo({ left: i * getStep(), behavior: 'smooth' });
+          });
+          dotsContainer.appendChild(dot);
+        });
+
+        const dots = Array.from(dotsContainer.querySelectorAll<HTMLElement>('.carousel-dot'));
+        const updateActiveDot = () => {
+          const activeIndex = Math.round(track.scrollLeft / getStep());
+          dots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIndex));
+        };
+        track.addEventListener('scroll', updateActiveDot, { passive: true });
+        window.addEventListener('resize', updateActiveDot);
+        updateActiveDot();
+      }
+
+      const updateButtonState = () => {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        prevBtn.disabled = track.scrollLeft <= 4;
+        nextBtn.disabled = track.scrollLeft >= maxScroll - 4;
+      };
+      track.addEventListener('scroll', updateButtonState, { passive: true });
+      window.addEventListener('resize', updateButtonState);
+      updateButtonState();
+
+      // Keyboard navigation
+      carousel.addEventListener('keydown', (e) => {
+        const event = e as KeyboardEvent;
+        if (event.key === 'ArrowLeft') { event.preventDefault(); scrollByCard(-1); }
+        if (event.key === 'ArrowRight') { event.preventDefault(); scrollByCard(1); }
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarousels);
+  } else {
+    initCarousels();
+  }
+</script>
+
+<style>
+  .testimonials {
+    background: linear-gradient(180deg, #F5F1E8 0%, #FDFCF8 100%);
+  }
+  :global([data-theme="dark"]) .testimonials {
+    background: var(--color-bg);
+  }
+
+  .section-header {
+    max-width: 620px;
+    margin-bottom: var(--space-10);
+  }
+  .section-header .rule { margin-bottom: var(--space-4); }
+  .section-header h2 { margin-bottom: var(--space-4); }
+
+  /* Carousel wrapper */
+  .testimonials-carousel {
+    position: relative;
+  }
+
+  /* Track — one card visible at a time */
+  .testimonials-track {
+    display: flex;
+    gap: var(--space-6);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-bottom: var(--space-2);
+    list-style: none;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .testimonials-track::-webkit-scrollbar { display: none; }
+
+  /* Each card takes full track width */
+  .testimonial-card {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-8) var(--space-6);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 16px rgba(15,77,63,0.05);
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .testimonial-card {
+      flex-direction: row;
+      gap: var(--space-8);
+      padding: var(--space-8);
+      align-items: stretch;
+    }
+  }
+  @media (min-width: 1024px) {
+    .testimonial-card {
+      padding: var(--space-10);
+      gap: var(--space-10);
+    }
+  }
+
+  /* Photo on the left (or on top on mobile) */
+  .testimonial-photo-wrap {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 0;
+  }
+
+  @media (max-width: 767px) {
+    .testimonial-photo-wrap {
+      margin-bottom: var(--space-1);
+    }
+  }
+  @media (min-width: 768px) {
+    .testimonial-photo-wrap {
+      width: 240px;
+      justify-content: flex-start;
+    }
+  }
+  @media (min-width: 1024px) {
+    .testimonial-photo-wrap { width: 300px; }
+  }
+
+  .testimonial-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center center;
+    background: var(--color-surface-alt);
+    border: 3px solid var(--color-surface);
+    box-shadow: 0 4px 16px rgba(15,77,63,0.1);
+  }
+  @media (min-width: 768px) {
+    .testimonial-photo {
+      width: 100%;
+      height: 100%;
+      max-height: 340px;
+      min-height: 280px;
+      border-radius: var(--radius-lg);
+      aspect-ratio: 4 / 5;
+    }
+  }
+
+  /* Body / quote area on the right */
+  .testimonial-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+    width: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .testimonial-body {
+      gap: var(--space-5);
+    }
+  }
+
+  .testimonial-quote-mark {
+    color: var(--color-accent);
+    opacity: 0.45;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+  }
+
+  @media (min-width: 768px) {
+    .testimonial-quote-mark {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .testimonial-quote {
+    flex: 1;
+    margin: 0;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-loose);
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  @media (min-width: 768px) {
+    .testimonial-quote {
+      font-size: var(--font-size-lg);
+    }
+  }
+  @media (min-width: 1024px) {
+    .testimonial-quote {
+      font-size: var(--font-size-xl);
+      line-height: 1.6;
+    }
+  }
+
+  .testimonial-author {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin: 0;
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 767px) {
+    .testimonial-author {
+      gap: var(--space-2);
+      padding-top: var(--space-6);
+      margin-top: var(--space-1);
+    }
+  }
+
+  .testimonial-name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    line-height: 1.35;
+  }
+
+  .testimonial-role {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .testimonial-company {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+    line-height: 1.4;
+    margin-top: var(--space-1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Controls below the carousel */
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    margin-top: var(--space-8);
+  }
+
+  .carousel-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(15,77,63,0.06);
+    flex-shrink: 0;
+  }
+  .carousel-btn:hover:not(:disabled) {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+    transform: scale(1.05);
+  }
+  .carousel-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  /* Dots */
+  .carousel-dots {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+  }
+  :global(.carousel-dot) {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all var(--transition-fast);
+  }
+  :global(.carousel-dot.is-active) {
+    background: var(--color-accent);
+    width: 28px;
+    border-radius: 4px;
+  }
+  :global(.carousel-dot:hover) {
+    background: var(--color-accent-light);
+  }
+</style>

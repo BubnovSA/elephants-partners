@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { hi } from '@/i18n/hi';
+const t = hi;
+const updated = '2026-05-18';
+---
+
+<BaseLayout title="गोपनीयता नीति — Elephants Partners" description="Elephants Partners की गोपनीयता नीति।" lang="hi" canonical="https://elephants.partners/hi/privacy" t={t}>
+  <section class="section legal-page">
+    <div class="container legal-container">
+      <h1 class="heading-2">गोपनीयता नीति</h1>
+      <p class="legal-updated">अंतिम अपडेट: {updated}</p>
+      <div class="legal-content">
+        <p>Elephants Partners ("हम") elephants.partners संचालित करता है। यह नीति बताती है कि हम आपकी वेबसाइट उपयोग के दौरान जानकारी कैसे संभालते हैं।</p>
+        <h2>हम क्या जानकारी एकत्र करते हैं</h2>
+        <p>हम केवल वह जानकारी एकत्र करते हैं जो आप ईमेल या Telegram के माध्यम से हमसे संपर्क करते समय प्रदान करते हैं।</p>
+        <h2>एनालिटिक्स</h2>
+        <p>यह वेबसाइट प्राइवेसी-फर्स्ट एनालिटिक्स का उपयोग करती है जो कुकीज़ का उपयोग नहीं करती और व्यक्तिगत पहचान योग्य जानकारी एकत्र नहीं करती।</p>
+        <h2>हम जानकारी का उपयोग कैसे करते हैं</h2>
+        <p>संपर्क जानकारी केवल आपकी पूछताछ का जवाब देने और व्यावसायिक साझेदारी पर चर्चा करने के लिए उपयोग की जाती है।</p>
+        <h2>संपर्क</h2>
+        <p>गोपनीयता संबंधी प्रश्नों के लिए: <a href="mailto:partnerships@elephants.partners">partnerships@elephants.partners</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page { background: var(--color-bg); }
+  .legal-container { max-width: 720px; }
+  .legal-page h1 { margin-bottom: var(--space-2); }
+  .legal-updated { font-size: var(--font-size-sm); color: var(--color-text-muted); margin-bottom: var(--space-10); }
+  .legal-content { display: flex; flex-direction: column; gap: var(--space-6); }
+  .legal-content h2 { font-size: var(--font-size-lg); font-weight: 600; margin-top: var(--space-4); }
+  .legal-content p { font-size: var(--font-size-base); color: var(--color-text-muted); line-height: var(--line-height-loose); }
+  .legal-content a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; }
+</style>

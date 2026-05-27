@@ -1,0 +1,284 @@
+---
+import type { Translations } from '@/i18n/en';
+interface Props { t: Translations; TELEGRAM_URL: string; }
+const { t, TELEGRAM_URL } = Astro.props;
+const h = t.hero;
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<section class="hero section--xl" aria-labelledby="hero-heading">
+  <div class="dot-pattern" aria-hidden="true"></div>
+  <div class="container hero-inner">
+
+    <div class="hero-copy" data-reveal>
+      <div class="hero-badges">
+        <span class="eyebrow">{h.eyebrow}</span>
+      </div>
+      <h1 id="hero-heading" class="heading-1 hero-h1">
+        {h.h1[0]}<br>{h.h1[1]}<br>
+        {h.h1[2]} <em class="hero-em">{h.h1Accent[0]}<br>{h.h1Accent[1]}</em>
+      </h1>
+      <p class="hero-desc body-lg">{h.description}</p>
+      <div class="hero-cta">
+        <a href={TELEGRAM_URL} class="btn btn--primary btn--lg" target="_blank" rel="noopener noreferrer">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+          {h.ctaTelegram}
+        </a>
+        <a href="mailto:partnerships@elephants.partners" class="btn btn--outline">{h.ctaEmail}</a>
+      </div>
+      <div class="hero-proof">
+        <div class="proof-team">
+          <div class="proof-avatars" aria-hidden="true">
+            <img src={`${basePath}/assets/proof_1.webp`} class="proof-avatar" alt="" width="32" height="32" loading="eager" />
+            <img src={`${basePath}/assets/proof_2.webp`} class="proof-avatar" alt="" width="32" height="32" loading="eager" />
+            <img src={`${basePath}/assets/proof_3.webp`} class="proof-avatar" alt="" width="32" height="32" loading="eager" />
+          </div>
+          <span class="proof-team-label">Team responds<br>same day</span>
+        </div>
+        <div class="proof-divider" aria-hidden="true"></div>
+        {h.proof.map((p, i) => (<>
+          {i > 0 && <div class="proof-divider" aria-hidden="true"></div>}
+          <div class="proof-item">
+            <span class="proof-num">{p.num}</span>
+            <span class="proof-label">{p.label}</span>
+          </div>
+        </>))}
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true" data-reveal="delay-2">
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <div class="dash-header-left">
+            <div class="dash-dot dash-dot--green"></div>
+            <span>{h.dash.liveLabel}</span>
+          </div>
+          <span class="dash-badge">{h.dash.badge}</span>
+        </div>
+        <div class="dash-amount-row">
+          <div>
+            <div class="dash-label">{h.dash.amountLabel}</div>
+            <div class="dash-amount">₹ 1,24,500<span class="dash-amount-dec">.00</span></div>
+          </div>
+          <div class="dash-status-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            {h.dash.settled}
+          </div>
+        </div>
+        <div class="dash-progress">
+          {h.dash.steps.map((step, i) => (<>
+            {i > 0 && <div class={`progress-line ${i <= 2 ? 'done' : ''}`}></div>}
+            <div class={`progress-step ${i < 2 ? 'done' : 'active'}`}>
+              <div class="progress-dot"></div>
+              <span>{step}</span>
+            </div>
+          </>))}
+        </div>
+        <div class="dash-rows">
+          {h.dash.rows.map(row => (
+            <div class="dash-row">
+              <div class="dash-row-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  {row.label === (t.lang === 'hi' ? 'चैनल' : 'Channel') ? <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/> : row.label === (t.lang === 'hi' ? 'सेटलमेंट' : 'Settlement') ? <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></> : <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>}
+                </svg>
+              </div>
+              <span class="dash-row-label">{row.label}</span>
+              <span class={`dash-row-value${row.green ? ' dash-row-value--green' : ''}`}>{row.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="float-card float-card--tl">
+        <div class="float-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div>
+          <div class="float-num">{h.floats[0].num}</div>
+          <div class="float-label">{h.floats[0].label}</div>
+        </div>
+      </div>
+      <div class="float-card float-card--br">
+        <div class="float-pulse"></div>
+        <div>
+          <div class="float-num">{h.floats[1].num}</div>
+          <div class="float-label">{h.floats[1].label}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #F8F4EA 0%, #EDE8DC 55%, #F5F1E8 100%);
+    background-image:
+      radial-gradient(ellipse 90% 65% at 80%  -5%, rgba(45,138,106,0.32) 0%, transparent 50%),
+      radial-gradient(ellipse 55% 45% at -5%  90%, rgba(45,138,106,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse 35% 30% at 50% 110%, rgba(160,110,30,0.10)  0%, transparent 50%);
+  }
+  :global([data-theme="dark"]) .hero {
+    background: var(--color-bg);
+    background-image:
+      radial-gradient(ellipse 90% 65% at 80% -5%, rgba(61,170,133,0.16) 0%, transparent 50%),
+      radial-gradient(ellipse 55% 45% at -5% 90%, rgba(42,122,94,0.10)  0%, transparent 50%);
+  }
+  .hero-inner {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1fr; gap: var(--space-12); align-items: center;
+  }
+  @media (min-width: 1024px) {
+    .hero-inner { grid-template-columns: 55fr 45fr; gap: var(--space-12); }
+  }
+  .hero-badges { margin-bottom: var(--space-5); }
+  .hero-h1 { margin-bottom: var(--space-5); font-size: clamp(2.6rem, 6vw, 4.5rem); }
+  .hero-em {
+    font-style: normal;
+    background: var(--gradient-card-top);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-desc { color: var(--color-text-muted); max-width: 500px; margin-bottom: var(--space-8); }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; margin-bottom: var(--space-10); }
+  .hero-proof {
+    display: flex; align-items: center; gap: var(--space-5);
+    padding: var(--space-4) var(--space-5);
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,244,238,0.9) 100%);
+    border: 1px solid rgba(45,138,106,0.2); border-radius: var(--radius-xl);
+    width: fit-content;
+    box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,1);
+    backdrop-filter: blur(8px);
+  }
+  @media (max-width: 639px) {
+    .hero-proof {
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      width: auto;
+    }
+    .proof-team {
+      width: 100%;
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid rgba(45,138,106,0.15);
+    }
+    .proof-team + .proof-divider { display: none; }
+  }
+  .proof-team {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+  .proof-avatars {
+    display: flex;
+    align-items: center;
+  }
+  .proof-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 15%;
+    border: 2px solid var(--color-surface);
+    margin-left: -9px;
+    flex-shrink: 0;
+  }
+  .proof-avatar:first-child { margin-left: 0; }
+  :global([data-theme="dark"]) .proof-avatar { border-color: var(--color-surface); }
+  .proof-team-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-weight: 500;
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+  .proof-item { display: flex; flex-direction: column; gap: 2px; }
+  .proof-num {
+    font-size: var(--font-size-xl); font-weight: 800; line-height: 1; letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  :global([data-theme="dark"]) .hero-proof {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(61,170,133,0.15);
+    box-shadow: var(--shadow-md);
+  }
+  :global([data-theme="dark"]) .proof-num {
+    background: linear-gradient(135deg, var(--color-accent-light) 0%, #fff 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .proof-label { font-size: var(--font-size-xs); color: var(--color-text-muted); font-weight: 500; }
+  .proof-divider { width: 1px; height: 32px; background: var(--color-border); }
+
+  /* ── Dashboard card ── */
+  .hero-visual { position: relative; display: none; justify-content: center; align-items: center; min-height: 400px; }
+  @media (min-width: 1024px) { .hero-visual { display: flex; } }
+
+  .dash-card {
+    width: 100%; max-width: 380px;
+    background: var(--color-surface);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--color-border-soft);
+    overflow: hidden;
+    padding-top: 3px;
+    background-image: var(--gradient-card-top);
+    background-size: 100% 3px;
+    background-repeat: no-repeat;
+    background-position: top;
+  }
+  .dash-card > * { background: var(--color-surface); }
+  .dash-card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: var(--space-4) var(--space-5) var(--space-3);
+    border-bottom: 1px solid var(--color-border-soft);
+    background: var(--color-surface);
+  }
+  .dash-header-left { display: flex; align-items: center; gap: var(--space-2); font-size: var(--font-size-xs); font-weight: 600; color: var(--color-text-muted); }
+  .dash-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .dash-dot--green { background: var(--color-success); box-shadow: 0 0 0 3px var(--color-success-bg); animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(22,163,74,0.2); }
+    50%       { box-shadow: 0 0 0 5px rgba(22,163,74,0.1); }
+  }
+  .dash-badge { font-size: var(--font-size-xs); font-weight: 700; color: var(--color-accent); background: var(--color-accent-pale); padding: .25em .7em; border-radius: var(--radius-full); letter-spacing: .04em; }
+  .dash-amount-row { display: flex; justify-content: space-between; align-items: flex-start; padding: var(--space-5) var(--space-5) var(--space-4); background: var(--color-surface); }
+  .dash-label { font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: var(--space-1); font-weight: 500; }
+  .dash-amount { font-size: 1.875rem; font-weight: 800; color: var(--color-text); letter-spacing: -0.03em; line-height: 1; }
+  .dash-amount-dec { font-size: 1.1rem; font-weight: 600; color: var(--color-text-muted); }
+  .dash-status-badge { display: flex; align-items: center; gap: 4px; background: var(--color-success-bg); color: var(--color-success); padding: .4em .9em; border-radius: var(--radius-full); font-size: var(--font-size-xs); font-weight: 700; margin-top: var(--space-2); }
+  .dash-progress { display: flex; align-items: center; padding: var(--space-4) var(--space-5); background: var(--color-surface-alt); }
+  .progress-step { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); flex-shrink: 0; }
+  .progress-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-border); border: 2px solid var(--color-border); }
+  .progress-step.done .progress-dot { background: var(--color-accent); border-color: var(--color-accent); }
+  .progress-step.active .progress-dot { background: var(--color-primary); border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(15,77,63,0.2); }
+  .progress-step span { font-size: .6rem; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+  .progress-step.active span { color: var(--color-primary); }
+  .progress-line { flex: 1; height: 2px; background: var(--color-border); margin-bottom: 14px; }
+  .progress-line.done { background: var(--color-accent); }
+  .dash-rows { display: flex; flex-direction: column; padding: var(--space-3) var(--space-5) var(--space-5); gap: var(--space-2); background: var(--color-surface); }
+  .dash-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--color-surface-alt); }
+  .dash-row-icon { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: var(--color-accent-pale); border-radius: var(--radius-sm); color: var(--color-accent); flex-shrink: 0; }
+  .dash-row-label { font-size: var(--font-size-xs); color: var(--color-text-muted); font-weight: 500; flex: 1; }
+  .dash-row-value { font-size: var(--font-size-xs); font-weight: 700; color: var(--color-text-soft); }
+  .dash-row-value--green { color: var(--color-success); }
+
+  /* Floats */
+  .float-card {
+    position: absolute; display: flex; align-items: center; gap: var(--space-3);
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl); padding: var(--space-3) var(--space-4);
+    box-shadow: var(--shadow-lg); white-space: nowrap;
+    animation: float 5s ease-in-out infinite;
+  }
+  .float-card--tl { top: -8px; right: -12px; animation-delay: 0s; }
+  .float-card--br { bottom: 20px; left: -20px; animation-delay: 1.8s; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .float-icon { width: 30px; height: 30px; background: var(--gradient-accent); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+  .float-pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--color-success); box-shadow: 0 0 0 4px var(--color-success-bg); animation: pulse-dot 2s infinite; flex-shrink: 0; }
+  .float-num { font-size: .9rem; font-weight: 800; color: var(--color-text); line-height: 1; letter-spacing: -0.02em; }
+  .float-label { font-size: .6rem; color: var(--color-text-muted); font-weight: 500; margin-top: 2px; }
+  @media (max-width: 480px) { .float-card { display: none; } }
+</style>

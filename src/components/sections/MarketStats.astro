@@ -1,0 +1,209 @@
+---
+import type { Translations } from '@/i18n/en';
+
+interface Props { t: Translations }
+const { t } = Astro.props;
+
+const statIcons = [
+  `<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 10h6M9 14h4"/>`,
+  `<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>`,
+  `<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>`,
+  `<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>`,
+];
+
+const quoteLines = t.marketStats.quote.split('\n');
+---
+
+<section class="market-stats section" aria-labelledby="stats-heading">
+  <div class="container">
+
+    <div class="stats-layout">
+      <!-- Left: copy -->
+      <div class="stats-copy" data-reveal>
+        <span class="eyebrow eyebrow--inv">{t.marketStats.eyebrow}</span>
+        <h2 id="stats-heading" class="heading-2 stats-heading">
+          {t.marketStats.heading[0]}<br>
+          {t.marketStats.heading[1]}
+        </h2>
+        <p class="stats-desc">
+          {t.marketStats.description}
+        </p>
+        <div class="stats-insight">
+          <div class="insight-line"></div>
+          <p>"{quoteLines[0]}<br>{quoteLines[1]}"</p>
+        </div>
+      </div>
+
+      <!-- Right: stat cards grid -->
+      <div class="stats-cards-grid">
+        {t.marketStats.stats.map(({ value, label }, i) => (
+          <div class="stat-card" data-reveal={`delay-${i + 1}`}>
+            <div class="stat-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <Fragment set:html={statIcons[i]} />
+              </svg>
+            </div>
+            <div class="stat-value">{value}</div>
+            <div class="stat-label">{label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .market-stats {
+    background: var(--color-surface-dark);
+    color: var(--color-text-inv);
+    position: relative;
+    overflow: hidden;
+    /* Rich multi-layer dark gradient */
+    background-image:
+      linear-gradient(160deg, #0A3830 0%, #0F4D3F 40%, #1A5A46 100%);
+  }
+
+  :global([data-theme="dark"]) .market-stats {
+    background-image:
+      linear-gradient(160deg, #081208 0%, #0E1C10 45%, #152218 100%);
+  }
+
+  .market-stats::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 100% 40%, rgba(61,170,133,0.28) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 40% at 0%  85%, rgba(45,138,106,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse 30% 30% at 50%  0%, rgba(26,91,70,0.4)   0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  /* Dot pattern on dark */
+  .market-stats::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  .stats-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .stats-layout { grid-template-columns: 45fr 55fr; gap: var(--space-16); }
+  }
+
+  /* Copy */
+  .stats-heading {
+    color: var(--color-text-inv);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-5);
+    /* Subtle gradient — white to light-green */
+    background: linear-gradient(135deg, #FFFFFF 0%, var(--color-accent-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stats-desc {
+    font-size: var(--font-size-base);
+    color: var(--color-text-inv-muted);
+    line-height: 1.75;
+    max-width: 420px;
+    margin-bottom: var(--space-8);
+  }
+
+  .stats-insight {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .insight-line {
+    width: 3px;
+    min-height: 3rem;
+    background: var(--gradient-accent);
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .stats-insight p {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--color-text-inv);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+
+  /* Stat cards grid */
+  .stats-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 480px) { .stats-cards-grid { gap: var(--space-4); } }
+
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5) var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition: background var(--transition-base), transform var(--transition-base);
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gradient-card-top);
+    opacity: 0.6;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+
+  .stat-card:hover {
+    background: rgba(255,255,255,0.09);
+    transform: translateY(-2px);
+  }
+
+  .stat-icon-wrap {
+    color: var(--color-accent-light);
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(61,170,133,0.12);
+    border-radius: var(--radius-md);
+  }
+
+  .stat-value {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .stat-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-inv-muted);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+</style>

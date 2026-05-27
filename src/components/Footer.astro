@@ -1,0 +1,235 @@
+---
+import type { Translations } from '@/i18n/en';
+import { url } from '@/utils/url';
+
+interface Props { t: Translations }
+const { t } = Astro.props;
+
+const year = new Date().getFullYear();
+
+const taglineLines = t.footer.tagline.split('\n');
+
+// Apply base URL to all internal footer links
+const company  = t.footer.company.map(l  => ({ ...l, href: url(l.href) }));
+const services = t.footer.services.map(l => ({ ...l, href: url(l.href) }));
+const legal    = t.footer.legal.map(l    => ({ ...l, href: url(l.href) }));
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-top">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <a href={url('/')} class="footer-logo" aria-label="Elephants Partners">
+          <img src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/assets/main_logo.jpeg`} alt="" class="footer-logo-icon" />
+          <span class="footer-logo-text">
+            <span>ELEPHANTS</span>
+            <span>PARTNERS</span>
+          </span>
+        </a>
+        <p class="footer-tagline">{taglineLines[0]}<br>{taglineLines[1]}</p>
+        <a
+          href="https://www.linkedin.com/company/elephant-partners"
+          class="footer-social"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Elephants Partners on LinkedIn"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+          LinkedIn
+        </a>
+      </div>
+
+      <!-- Nav columns -->
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav-col">
+          <span class="footer-nav-heading">{t.footer.headings.company}</span>
+          {company.map(({ href, label }) => (
+            <a href={href} class="footer-nav-link">{label}</a>
+          ))}
+        </div>
+        <div class="footer-nav-col">
+          <span class="footer-nav-heading">{t.footer.headings.services}</span>
+          {services.map(({ href, label }) => (
+            <a href={href} class="footer-nav-link">{label}</a>
+          ))}
+        </div>
+        <div class="footer-nav-col">
+          <span class="footer-nav-heading">{t.footer.headings.contact}</span>
+          <a href="mailto:partnerships@elephants.partners" class="footer-nav-link">partnerships@elephants.partners</a>
+          <a href="mailto:careers@elephants.partners" class="footer-nav-link">careers@elephants.partners</a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">
+        &copy; <span data-nosnippet>{year}</span> {t.footer.copyrightSuffix}
+      </p>
+      <div class="footer-legal">
+        {legal.map(({ href, label }) => (
+          <a href={href} class="footer-legal-link">{label}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-surface-dark);
+    color: var(--color-text-inv);
+    padding-block: var(--space-16) var(--space-8);
+  }
+
+  /* In dark mode the footer needs a different shade to stand out from bg */
+  :global([data-theme="dark"]) .site-footer {
+    background: #0A100D;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .footer-top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+    padding-bottom: var(--space-10);
+    border-bottom: 1px solid var(--color-border-dark);
+  }
+
+  @media (min-width: 768px) {
+    .footer-top {
+      flex-direction: row;
+      gap: var(--space-16);
+    }
+  }
+
+  /* Brand */
+  .footer-brand {
+    flex-shrink: 0;
+    max-width: 220px;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-text-inv);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer-logo-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  .footer-logo-text {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+    color: var(--color-text-inv);
+  }
+
+  .footer-tagline {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-inv-muted);
+    line-height: var(--line-height-snug);
+    margin-bottom: var(--space-5);
+  }
+
+  .footer-social {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-inv-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .footer-social:hover {
+    color: var(--color-text-inv);
+  }
+
+  /* Nav */
+  .footer-nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+    flex: 1;
+  }
+
+  @media (min-width: 640px) {
+    .footer-nav { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .footer-nav-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .footer-nav-heading {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-inv-muted);
+    margin-bottom: var(--space-1);
+  }
+
+  .footer-nav-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-inv-muted);
+    transition: color var(--transition-fast);
+    line-height: var(--line-height-snug);
+  }
+
+  .footer-nav-link:hover {
+    color: var(--color-text-inv);
+  }
+
+  /* Bottom bar */
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-8);
+  }
+
+  @media (min-width: 640px) {
+    .footer-bottom {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .footer-copy {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-inv-muted);
+  }
+
+  .footer-legal {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .footer-legal-link {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-inv-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .footer-legal-link:hover {
+    color: var(--color-text-inv);
+  }
+</style>

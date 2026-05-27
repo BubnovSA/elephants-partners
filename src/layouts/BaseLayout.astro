@@ -1,0 +1,168 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { en } from '@/i18n/en';
+import type { Translations } from '@/i18n/en';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  canonical?: string;
+  lang?: string;
+  noindex?: boolean;
+  t?: Translations;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og/default.svg',
+  ogType = 'website',
+  canonical,
+  lang = 'en',
+  noindex = false,
+  t = en,
+} = Astro.props;
+
+const siteUrl = 'https://elephants.partners';
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
+const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+const pathname = Astro.url.pathname;
+const isHiPage = pathname.startsWith('/hi');
+const enPath = isHiPage ? (pathname.replace(/^\/hi/, '') || '/') : pathname;
+const hiPath = isHiPage ? pathname : `/hi${pathname}`;
+const hreflangEn = `${siteUrl}${enPath}`;
+const hreflangHi = `${siteUrl}${hiPath}`;
+const ogLocale = lang === 'hi' ? 'hi_IN' : 'en_US';
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Elephants Partners',
+  url: siteUrl,
+  logo: `${siteUrl}/assets/main_logo.jpeg`,
+  description: 'Payment infrastructure for businesses operating in high-growth emerging markets. UPI payment processing, settlement solutions, and merchant services for international companies entering India.',
+  foundingDate: '2024',
+  numberOfEmployees: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 10 },
+  areaServed: ['IN', 'EU'],
+  knowsAbout: ['UPI Payment Processing', 'Payment Infrastructure', 'Settlement Solutions', 'Merchant Services', 'Digital Payments India'],
+  sameAs: ['https://www.linkedin.com/company/elephant-partners'],
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      contactType: 'partnerships',
+      email: 'partnerships@elephants.partners',
+    },
+    {
+      '@type': 'ContactPoint',
+      contactType: 'careers',
+      email: 'careers@elephants.partners',
+    },
+  ],
+  location: [
+    { '@type': 'Place', name: 'India (Operations)' },
+    { '@type': 'Place', name: 'Europe (Headquarters)' },
+  ],
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  url: siteUrl,
+  name: 'Elephants Partners',
+  description: organizationSchema.description,
+};
+---
+
+<!doctype html>
+<html lang={lang} dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0F4D3F" />
+
+    <!-- Primary SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={hreflangEn} />
+    <link rel="alternate" hreflang="hi" href={hreflangHi} />
+    <link rel="alternate" hreflang="x-default" href={hreflangEn} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Elephants Partners" />
+    <meta property="og:locale" content={ogLocale} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Theme: anti-FOUC — runs synchronously before render -->
+    <script is:inline>
+      (function() {
+        var stored = localStorage.getItem('ep-theme');
+        var preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', stored || preferred);
+      })();
+    </script>
+
+    <!-- Fonts — Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(websiteSchema)} />
+
+    <!-- Sitemap -->
+    <link rel="sitemap" href="/sitemap.xml" />
+  </head>
+  <body>
+    <Header />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer t={t} />
+    <script>
+      // Scroll-reveal
+      const observer = new IntersectionObserver(
+        (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); observer.unobserve(e.target); } }),
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      );
+      document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+
+      // Theme set — called from Header buttons
+      (window as Window & { __setTheme?: (t: string) => void }).__setTheme = function(theme: string) {
+        const html = document.documentElement;
+        if (html.getAttribute('data-theme') === theme) return;
+        html.classList.add('theme-transitioning');
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('ep-theme', theme);
+        setTimeout(() => html.classList.remove('theme-transitioning'), 300);
+      };
+    </script>
+  </body>
+</html>

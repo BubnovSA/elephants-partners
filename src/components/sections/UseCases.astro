@@ -1,0 +1,144 @@
+---
+import type { Translations } from '@/i18n/en';
+
+interface Props { t: Translations }
+const { t } = Astro.props;
+
+const contactHref = (t.lang as string) === 'hi' ? '/hi/contact' : '/contact';
+---
+
+<section class="use-cases section" aria-labelledby="use-cases-heading">
+  <div class="container">
+    <header class="section-header">
+      <span class="eyebrow">{t.useCases.eyebrow}</span>
+      <span class="rule"></span>
+      <h2 id="use-cases-heading" class="heading-2">
+        {t.useCases.heading[0]}<br>
+        {t.useCases.heading[1]}<br>
+        <span class="accent">{t.useCases.heading[2]}</span>
+      </h2>
+      <p class="section-desc body-lg" style="color: var(--color-text-muted)">
+        {t.useCases.description}
+      </p>
+    </header>
+
+    <ul class="cases-grid grid-3" role="list">
+      {t.useCases.cases.map(({ label, title, details, volume }) => (
+        <li class="case-card card">
+          <div class="case-header">
+            <span class="tag">{label}</span>
+            <span class="case-volume">{volume}</span>
+          </div>
+          <h3 class="case-title">{title}</h3>
+          <ul class="case-details" role="list">
+            {details.map(d => (
+              <li class="case-detail-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                {d}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+
+    <p class="use-cases-cta-note">
+      {t.useCases.notFound}
+      <a href={contactHref} class="use-cases-link">{t.useCases.notFoundLink}</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .use-cases {
+    background: linear-gradient(165deg, #EDE9DF 0%, #F7F4EC 60%, #F0EBE2 100%);
+    background-image:
+      radial-gradient(ellipse 55% 50% at 0%   50%, rgba(45,138,106,0.14) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 35% at 100% 80%, rgba(160,110,30,0.09)  0%, transparent 45%);
+  }
+  :global([data-theme="dark"]) .use-cases {
+    background: var(--color-surface-alt);
+    background-image: none;
+  }
+
+  .section-header {
+    max-width: 580px;
+    margin-bottom: var(--space-10);
+  }
+
+  .section-header .rule { margin-bottom: var(--space-4); }
+  .section-header h2 { margin-bottom: var(--space-4); }
+
+  .case-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background: linear-gradient(150deg, #FFFFFF 0%, #F9F6EF 100%);
+  }
+  :global([data-theme="dark"]) .case-card {
+    background: linear-gradient(150deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+  }
+
+  .case-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .case-volume {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .case-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    line-height: var(--line-height-snug);
+  }
+
+  .case-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
+  }
+
+  .case-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-normal);
+  }
+
+  .case-detail-item svg {
+    color: var(--color-accent);
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .use-cases-cta-note {
+    text-align: center;
+    margin-top: var(--space-8);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .use-cases-link {
+    color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+    margin-left: var(--space-1);
+    transition: color var(--transition-fast);
+  }
+
+  .use-cases-link:hover {
+    color: var(--color-primary);
+  }
+</style>

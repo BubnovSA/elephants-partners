@@ -1,0 +1,37 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { hi } from '@/i18n/hi';
+const t = hi;
+const updated = '2026-05-18';
+---
+
+<BaseLayout title="सेवा की शर्तें — Elephants Partners" description="elephants.partners के लिए सेवा की शर्तें।" lang="hi" canonical="https://elephants.partners/hi/terms" t={t}>
+  <section class="section legal-page">
+    <div class="container legal-container">
+      <h1 class="heading-2">सेवा की शर्तें</h1>
+      <p class="legal-updated">अंतिम अपडेट: {updated}</p>
+      <div class="legal-content">
+        <p>elephants.partners तक पहुँचकर, आप इन शर्तों से सहमत होते हैं।</p>
+        <h2>वेबसाइट का उपयोग</h2>
+        <p>आप इस वेबसाइट का उपयोग केवल कानूनी उद्देश्यों के लिए कर सकते हैं।</p>
+        <h2>बौद्धिक संपदा</h2>
+        <p>इस वेबसाइट पर सभी सामग्री Elephants Partners की संपत्ति है।</p>
+        <h2>अस्वीकरण</h2>
+        <p>यह वेबसाइट हमारी सेवाओं के बारे में सामान्य जानकारी प्रदान करती है। यह वित्तीय सलाह नहीं है।</p>
+        <h2>संपर्क</h2>
+        <p>इन शर्तों के बारे में प्रश्न: <a href="mailto:partnerships@elephants.partners">partnerships@elephants.partners</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page { background: var(--color-bg); }
+  .legal-container { max-width: 720px; }
+  .legal-page h1 { margin-bottom: var(--space-2); }
+  .legal-updated { font-size: var(--font-size-sm); color: var(--color-text-muted); margin-bottom: var(--space-10); }
+  .legal-content { display: flex; flex-direction: column; gap: var(--space-6); }
+  .legal-content h2 { font-size: var(--font-size-lg); font-weight: 600; margin-top: var(--space-4); }
+  .legal-content p { font-size: var(--font-size-base); color: var(--color-text-muted); line-height: var(--line-height-loose); }
+  .legal-content a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; }
+</style>

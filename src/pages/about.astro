@@ -1,0 +1,198 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About Elephants Partners — Payment Infrastructure Company"
+  description="Elephants Partners builds payment infrastructure for international businesses entering India. European-founded with local operations in India. Learn about our mission and team."
+>
+  <section class="section about-hero">
+    <div class="container">
+      <span class="eyebrow">About us</span>
+      <span class="rule"></span>
+      <h1 class="heading-1">
+        Built by people who've seen<br>
+        <span class="accent">what doesn't work</span>
+      </h1>
+      <p class="about-intro body-lg">
+        Elephants Partners was founded in 2024 with one goal: make it genuinely easy for
+        international businesses to accept payments in India. Not "almost easy." Actually easy.
+      </p>
+    </div>
+  </section>
+
+  <section class="section about-mission">
+    <div class="container">
+      <div class="about-mission-inner">
+        <div>
+          <h2 class="heading-2">Our mission</h2>
+          <p class="body-lg" style="color: var(--color-text-muted); margin-top: var(--space-4)">
+            India's digital payments market processes over 16 billion UPI transactions per month.
+            For international companies, capturing this opportunity requires navigating a complex
+            web of local banks, compliance requirements, and operational nuances.
+          </p>
+          <p class="body-lg" style="color: var(--color-text-muted); margin-top: var(--space-4)">
+            We provide the infrastructure layer — so our clients focus on their product,
+            not on becoming experts in Indian banking.
+          </p>
+        </div>
+        <div class="about-values">
+          {[
+            { title: 'Founded', value: '2024' },
+            { title: 'Headquartered', value: 'Europe' },
+            { title: 'Operations', value: 'India' },
+            { title: 'Team', value: '2–10 people' },
+          ].map(({ title, value }) => (
+            <div class="about-value-item">
+              <span class="about-value-label">{title}</span>
+              <span class="about-value">{value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about-team" style="background: var(--color-surface-alt)">
+    <div class="container">
+      <span class="eyebrow">Team</span>
+      <span class="rule"></span>
+      <h2 class="heading-2">The people behind<br>Elephants Partners</h2>
+      <!-- Team members will be added when content is available -->
+      <div class="team-placeholder">
+        <p>Team profiles coming soon.</p>
+        <p>In the meantime, reach us at
+          <a href="mailto:partnerships@elephants.partners">partnerships@elephants.partners</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about-contact">
+    <div class="container">
+      <h2 class="heading-2">Get in touch</h2>
+      <div class="about-contact-grid">
+        <div class="card about-contact-card">
+          <h3>Partnerships</h3>
+          <p>For integration inquiries, partnership proposals, and commercial discussions.</p>
+          <a href="mailto:partnerships@elephants.partners" class="btn btn--primary">
+            partnerships@elephants.partners
+          </a>
+        </div>
+        <div class="card about-contact-card">
+          <h3>Careers</h3>
+          <p>We're building a local operations team in India. Interested in joining?</p>
+          <a href="/careers" class="btn btn--outline">
+            See open roles →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-hero {
+    background: var(--color-bg);
+    padding-bottom: var(--space-8);
+  }
+
+  .about-hero .rule { margin-bottom: var(--space-5); }
+  .about-hero h1 { margin-bottom: var(--space-5); }
+
+  .about-intro {
+    color: var(--color-text-muted);
+    max-width: 620px;
+  }
+
+  .about-mission-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .about-mission-inner { grid-template-columns: 3fr 2fr; gap: var(--space-16); }
+  }
+
+  .about-values {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .about-value-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4);
+    background: var(--color-surface-alt);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+  }
+
+  .about-value-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .about-value {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+  }
+
+  .about-team .rule { margin-bottom: var(--space-4); }
+  .about-team h2 { margin-bottom: var(--space-8); }
+
+  .team-placeholder {
+    padding: var(--space-10);
+    text-align: center;
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-base);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .team-placeholder a {
+    color: var(--color-accent);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .about-contact h2 { margin-bottom: var(--space-8); }
+
+  .about-contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .about-contact-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .about-contact-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .about-contact-card h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .about-contact-card p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    flex: 1;
+  }
+</style>

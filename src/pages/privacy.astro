@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+const updated = '2026-05-18';
+---
+
+<BaseLayout
+  title="Privacy Policy — Elephants Partners"
+  description="Elephants Partners privacy policy. How we collect, use, and protect your information."
+  noindex={false}
+>
+  <section class="section legal-page">
+    <div class="container legal-container">
+      <h1 class="heading-2">Privacy Policy</h1>
+      <p class="legal-updated">Last updated: {updated}</p>
+
+      <div class="legal-content">
+        <p>Elephants Partners ("we", "us", or "our") operates elephants.partners. This policy explains how we handle information when you use our website.</p>
+
+        <h2>Information we collect</h2>
+        <p>We collect information you provide directly when you contact us via email or Telegram (name, email, business details). We do not use tracking cookies or store personal data through the website itself.</p>
+
+        <h2>Analytics</h2>
+        <p>This website uses privacy-first analytics that do not use cookies and do not collect personally identifiable information. No consent banner is required.</p>
+
+        <h2>How we use information</h2>
+        <p>Contact information is used solely to respond to your inquiry and discuss potential business partnerships. We do not sell or share your data with third parties for marketing purposes.</p>
+
+        <h2>Data retention</h2>
+        <p>Business correspondence is retained for the duration of our business relationship and as required by applicable law.</p>
+
+        <h2>Your rights</h2>
+        <p>You may request deletion of your personal data at any time by contacting us at <a href="mailto:partnerships@elephants.partners">partnerships@elephants.partners</a>.</p>
+
+        <h2>Contact</h2>
+        <p>For privacy-related questions: <a href="mailto:partnerships@elephants.partners">partnerships@elephants.partners</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page { background: var(--color-bg); }
+  .legal-container { max-width: 720px; }
+  .legal-page h1 { margin-bottom: var(--space-2); }
+  .legal-updated { font-size: var(--font-size-sm); color: var(--color-text-muted); margin-bottom: var(--space-10); }
+  .legal-content { display: flex; flex-direction: column; gap: var(--space-6); }
+  .legal-content h2 { font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-top: var(--space-4); }
+  .legal-content p { font-size: var(--font-size-base); color: var(--color-text-muted); line-height: var(--line-height-loose); }
+  .legal-content a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; }
+</style>

@@ -1,0 +1,171 @@
+---
+import type { Translations } from '@/i18n/en';
+
+interface Props { t: Translations }
+const { t } = Astro.props;
+
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<section class="how-it-works section" aria-labelledby="how-it-works-heading">
+  <div class="container">
+    <div class="how-it-works-layout">
+      <div class="how-it-works-main">
+        <header class="section-header">
+          <span class="eyebrow">{t.howItWorks.eyebrow}</span>
+          <span class="rule"></span>
+          <h2 id="how-it-works-heading" class="heading-2">
+            {t.howItWorks.heading}
+          </h2>
+          <p class="section-desc body-lg" style="color: var(--color-text-muted)">
+            {t.howItWorks.description}
+          </p>
+        </header>
+
+        <ol class="steps-list" role="list">
+          {t.howItWorks.steps.map(({ num, title, desc }) => (
+            <li class="step-item">
+              <div class="step-num" aria-hidden="true">{num}</div>
+              <div class="step-connector" aria-hidden="true"></div>
+              <div class="step-content">
+                <h3 class="step-title">{title}</h3>
+                <p class="step-desc">{desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <figure class="how-it-works-media">
+        <img
+          src={`${basePath}/assets/think_together.webp`}
+          alt=""
+          class="how-it-works-img"
+          loading="lazy"
+          decoding="async"
+          width="800"
+          height="600"
+        />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-it-works {
+    background: linear-gradient(180deg, #FDFCF8 0%, #F5F1E8 100%);
+  }
+  :global([data-theme="dark"]) .how-it-works {
+    background: var(--color-bg);
+  }
+
+  .how-it-works-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .how-it-works-layout {
+      grid-template-columns: 1fr 0.85fr;
+      gap: var(--space-16);
+      align-items: center;
+    }
+  }
+
+  .section-header {
+    max-width: 560px;
+    margin-bottom: var(--space-12);
+  }
+
+  .section-header .rule { margin-bottom: var(--space-4); }
+  .section-header h2 { margin-bottom: var(--space-4); }
+
+  .how-it-works-media {
+    margin: 0;
+    order: -1;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 12px 40px rgba(15,77,63,0.1);
+    line-height: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .how-it-works-media { order: 1; }
+  }
+
+  .how-it-works-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+
+  .steps-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .steps-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .steps-list {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8);
+    }
+  }
+
+  .step-item {
+    position: relative;
+    padding-top: var(--space-8);
+  }
+
+  .step-num {
+    position: absolute;
+    top: 0; left: 0;
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-extrabold);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    user-select: none;
+    background: linear-gradient(135deg, rgba(15,77,63,0.14) 0%, rgba(45,138,106,0.06) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  :global([data-theme="dark"]) .step-num {
+    background: linear-gradient(135deg, rgba(61,170,133,0.2) 0%, rgba(61,170,133,0.05) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .step-connector { display: none; }
+
+  .step-content {
+    position: relative;
+    z-index: 1;
+    padding-right: var(--space-4);
+  }
+
+  .step-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .step-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-loose);
+  }
+</style>

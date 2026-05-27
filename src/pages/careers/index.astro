@@ -1,0 +1,303 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const TELEGRAM_URL = 'https://t.me/elephantpartners';
+
+const duties = [
+  'Manage relationships with banking partners',
+  'Coordinate account openings and daily operations',
+  'Monitor transaction flow and ensure smooth processing',
+  'Work directly with our European leadership team',
+];
+
+const benefits = [
+  { label: 'Competitive salary', note: '+ performance bonuses' },
+  { label: 'Full training', note: 'No prior fintech experience needed' },
+  { label: 'Growth opportunity', note: 'In a fast-scaling company' },
+  { label: 'International team', note: 'and exposure' },
+  { label: 'Dynamic environment', note: 'and support' },
+];
+
+const requirements = ['Based in India', 'Hindi + Marathi', 'Basic English', 'Own transport'];
+---
+
+<BaseLayout
+  title="Careers at Elephants Partners — Operations Executive, India"
+  description="Join Elephants Partners in India. We're hiring an Operations Executive to manage banking relationships and coordinate payment operations. No fintech experience required."
+>
+  <section class="section careers-hero">
+    <div class="container">
+      <span class="eyebrow">Careers · India</span>
+      <span class="rule"></span>
+      <h1 class="heading-1">
+        We're<br>
+        <span class="accent">hiring in India</span>
+      </h1>
+      <p class="careers-intro body-lg">
+        Elephants Partners is building a local operations team in India to support
+        our payment infrastructure for international businesses.
+      </p>
+      <div class="lang-links" aria-label="Language options">
+        <span>Also available in:</span>
+        <a href="/hi/careers">हिन्दी</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--color-surface-alt)">
+    <div class="container">
+      <div class="careers-grid">
+
+        <div class="job-posting">
+          <div class="job-tag-bar">
+            <span class="tag">Open role</span>
+            <span class="job-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              India
+            </span>
+          </div>
+          <h2 class="heading-2">Operations Executive</h2>
+
+          <div class="job-section">
+            <h3>What you'll do</h3>
+            <ul class="duties-list" role="list">
+              {duties.map(d => (
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                  {d}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="job-section">
+            <h3>Requirements</h3>
+            <div class="requirements-chips">
+              {requirements.map(r => <span class="tag">{r}</span>)}
+            </div>
+          </div>
+
+          <div class="job-section">
+            <h3>What we offer</h3>
+            <ul class="benefits-grid" role="list">
+              {benefits.map(({ label, note }) => (
+                <li class="benefit-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  <span>
+                    <strong>{label}</strong>
+                    {note && <span class="benefit-note"> — {note}</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="apply-block">
+            <p>Interested? DM us or apply via Telegram.</p>
+            <a href={TELEGRAM_URL} class="btn btn--primary btn--lg" target="_blank" rel="noopener noreferrer">
+              Apply in Telegram
+            </a>
+            <a href="mailto:careers@elephants.partners" class="btn btn--outline">
+              careers@elephants.partners
+            </a>
+          </div>
+        </div>
+
+        <!-- Company sidebar -->
+        <aside class="careers-sidebar">
+          <div class="card sidebar-card">
+            <h3>About Elephants Partners</h3>
+            <p>
+              We build payment infrastructure for international businesses entering India.
+              Founded in 2024, headquartered in Europe with local operations in India.
+            </p>
+            <dl class="sidebar-facts">
+              <div><dt>Industry</dt><dd>Financial Services / Fintech</dd></div>
+              <div><dt>Company size</dt><dd>2–10 people</dd></div>
+              <div><dt>Founded</dt><dd>2024</dd></div>
+              <div><dt>Operations</dt><dd>India</dd></div>
+            </dl>
+            <a href="/about" class="btn btn--outline" style="margin-top: var(--space-4)">
+              Learn more about us
+            </a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .careers-hero {
+    background: var(--color-bg);
+    padding-bottom: var(--space-8);
+  }
+
+  .careers-hero .rule { margin-bottom: var(--space-5); }
+  .careers-hero h1 { margin-bottom: var(--space-5); }
+
+  .careers-intro {
+    color: var(--color-text-muted);
+    max-width: 520px;
+    margin-bottom: var(--space-4);
+  }
+
+  .lang-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .lang-links a {
+    color: var(--color-accent);
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-fast);
+  }
+
+  .lang-links a:hover { color: var(--color-primary); }
+
+  .careers-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .careers-grid { grid-template-columns: 2fr 1fr; gap: var(--space-10); }
+  }
+
+  .job-posting {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .job-tag-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .job-location {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .job-posting h2 { margin-top: calc(-1 * var(--space-4)); }
+
+  .job-section h3 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: var(--font-size-xs);
+    margin-bottom: var(--space-4);
+  }
+
+  .duties-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .duties-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+  }
+
+  .duties-list li svg { color: var(--color-accent); flex-shrink: 0; margin-top: 4px; }
+
+  .requirements-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 640px) {
+    .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+  }
+
+  .benefit-item svg { color: var(--color-accent); flex-shrink: 0; margin-top: 3px; }
+  .benefit-note { color: var(--color-text-muted); font-weight: var(--font-weight-regular); }
+
+  .apply-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .apply-block > p {
+    width: 100%;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-1);
+  }
+
+  /* Sidebar */
+  .sidebar-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .sidebar-card h3 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .sidebar-card > p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-normal);
+  }
+
+  .sidebar-facts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .sidebar-facts div { display: flex; gap: var(--space-2); font-size: var(--font-size-sm); }
+  .sidebar-facts dt { color: var(--color-text-muted); flex-shrink: 0; }
+  .sidebar-facts dd { font-weight: var(--font-weight-medium); color: var(--color-text); }
+</style>

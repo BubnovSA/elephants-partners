@@ -1,0 +1,465 @@
+---
+import { currentLang, switchLangUrl } from '@/i18n/index';
+import { url } from '@/utils/url';
+
+const { pathname } = Astro.url;
+const lang = currentLang(pathname);
+const isHi = lang === 'hi';
+
+const TELEGRAM_URL = 'https://t.me/elephantpartners';
+
+// Nav links — language-aware + base-URL-aware
+const base = isHi ? '/hi' : '';
+const nav = [
+  { href: url(`${base}/#services`), label: isHi ? 'सेवाएं'         : 'Services'  },
+  { href: url(`${base}/#why-india`), label: isHi ? 'भारत क्यों'     : 'Why India' },
+  { href: url(`${base}/about`),     label: isHi ? 'हमारे बारे में' : 'About'     },
+  { href: url(`${base}/careers`),   label: isHi ? 'करियर'          : 'Careers'   },
+];
+
+const langs = [
+  { code: 'EN', href: url(switchLangUrl(pathname, 'en')), label: 'English',  active: !isHi },
+  { code: 'HI', href: url(switchLangUrl(pathname, 'hi')), label: 'हिन्दी', active: isHi },
+];
+---
+
+<header class="site-header" role="banner">
+  <div class="container header-inner">
+
+    <!-- Logo -->
+    <a href={url(`${base}/`)} class="header-logo" aria-label="Elephants Partners — home">
+      <img src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/assets/main_logo.jpeg`} alt="" class="logo-icon" aria-hidden="true" />
+      <span class="logo-text">
+        <span class="logo-name">ELEPHANTS</span>
+        <span class="logo-sub">PARTNERS</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="header-nav" aria-label="Main navigation">
+      {nav.map(({ href, label }) => (
+        <a href={href} class="nav-link">{label}</a>
+      ))}
+    </nav>
+
+    <!-- Controls -->
+    <div class="header-controls">
+
+      <!-- Language switcher -->
+      <div class="lang-switcher" role="group" aria-label="Language">
+        <button class="lang-switcher-btn" id="lang-btn" aria-expanded="false" aria-haspopup="listbox">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span class="lang-current">{isHi ? 'HI' : 'EN'}</span>
+          <svg class="lang-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="lang-dropdown" id="lang-dropdown" role="listbox" aria-label="Select language" hidden>
+          {langs.map(({ code, href, label, active }) => (
+            <a
+              href={href}
+              class={`lang-option ${active ? 'lang-option--active' : ''}`}
+              role="option"
+              aria-selected={active}
+            >
+              <span class="lang-option-code">{code}</span>
+              <span class="lang-option-label">{label}</span>
+              {active && (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              )}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Theme toggle (pill) -->
+      <div class="theme-pill" role="group" aria-label="Color scheme">
+        <button
+          class="theme-pill-btn theme-pill-btn--light"
+          data-theme-light
+          aria-label="Light mode"
+          onclick="window.__setTheme('light')"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+        <button
+          class="theme-pill-btn theme-pill-btn--dark"
+          data-theme-dark
+          aria-label="Dark mode"
+          onclick="window.__setTheme('dark')"
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- CTA -->
+      <a href={TELEGRAM_URL} class="btn btn--primary header-cta" target="_blank" rel="noopener noreferrer">
+        Talk to us
+      </a>
+
+      <!-- Mobile menu toggle -->
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile navigation" hidden>
+    <nav>
+      {nav.map(({ href, label }) => (
+        <a href={href} class="mobile-nav-link">{label}</a>
+      ))}
+      <div class="mobile-divider"></div>
+      <div class="mobile-langs">
+        {langs.map(({ code, href, label, active }) => (
+          <a href={href} class={`mobile-lang-link ${active ? 'active' : ''}`}>{code} — {label}</a>
+        ))}
+      </div>
+      <a href={TELEGRAM_URL} class="btn btn--primary" style="justify-content:center;width:100%;margin-top:1rem" target="_blank" rel="noopener noreferrer">
+        Talk to us in Telegram
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // ── Mobile menu ──────────────────────────────────────────
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', () => {
+      const open = menuBtn.getAttribute('aria-expanded') === 'true';
+      menuBtn.setAttribute('aria-expanded', String(!open));
+      mobileMenu.hidden = open;
+      menuBtn.classList.toggle('is-open', !open);
+    });
+    mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
+      menuBtn.setAttribute('aria-expanded', 'false');
+      mobileMenu.hidden = true;
+      menuBtn.classList.remove('is-open');
+    }));
+  }
+
+  // ── Language dropdown ─────────────────────────────────────
+  const langBtn = document.getElementById('lang-btn');
+  const langDrop = document.getElementById('lang-dropdown');
+  if (langBtn && langDrop) {
+    langBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = langBtn.getAttribute('aria-expanded') === 'true';
+      langBtn.setAttribute('aria-expanded', String(!open));
+      langDrop.hidden = open;
+    });
+    document.addEventListener('click', () => {
+      langBtn.setAttribute('aria-expanded', 'false');
+      langDrop.hidden = true;
+    });
+    langDrop.addEventListener('click', e => e.stopPropagation());
+  }
+
+  // ── Theme pill sync ───────────────────────────────────────
+  function syncThemePill() {
+    const theme = document.documentElement.getAttribute('data-theme') || 'light';
+    document.querySelectorAll('[data-theme-light]').forEach(b => b.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false'));
+    document.querySelectorAll('[data-theme-dark]').forEach(b => b.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false'));
+  }
+  syncThemePill();
+  // Watch for external changes (initial load)
+  new MutationObserver(syncThemePill).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+
+<style>
+  /* ── Header base ── */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    /* Warm gradient with brand tint */
+    background:
+      linear-gradient(180deg,
+        rgba(245,241,232,0.88) 0%,
+        rgba(238,233,220,0.78) 100%
+      );
+    backdrop-filter: blur(28px) saturate(200%) brightness(1.02);
+    -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.02);
+    border-bottom: 1px solid rgba(220,212,196,0.55);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.7),
+      0 4px 24px rgba(15,77,63,0.07);
+  }
+
+  :global([data-theme="dark"]) .site-header {
+    background:
+      linear-gradient(180deg,
+        rgba(15,25,18,0.92) 0%,
+        rgba(12,20,16,0.85) 100%
+      );
+    border-bottom: 1px solid rgba(40,56,42,0.7);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.04),
+      0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    height: 3.75rem;
+  }
+
+  /* ── Logo ── */
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    display: block;
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(15,77,63,0.25);
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  .logo-name {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+  }
+  .logo-sub {
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--color-text-muted);
+  }
+
+  /* ── Desktop nav ── */
+  .header-nav {
+    display: none;
+    align-items: center;
+    gap: var(--space-5);
+    margin-left: auto;
+  }
+  .nav-link {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+    letter-spacing: 0.01em;
+  }
+  .nav-link:hover { color: var(--color-text); }
+
+  @media (min-width: 768px) { .header-nav { display: flex; } }
+
+  /* ── Controls group ── */
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-left: auto;
+  }
+  @media (min-width: 768px) { .header-controls { margin-left: 0; } }
+
+  .header-cta {
+    display: none;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.8rem;
+  }
+  @media (min-width: 768px) { .header-cta { display: inline-flex; } }
+
+  /* ── Language switcher ── */
+  .lang-switcher { position: relative; }
+
+  .lang-switcher-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    letter-spacing: 0.04em;
+  }
+  .lang-switcher-btn:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+    background: var(--color-surface-alt);
+  }
+
+  .lang-current { font-weight: 700; color: var(--color-text); }
+
+  .lang-chevron {
+    transition: transform var(--transition-fast);
+    opacity: 0.6;
+  }
+  .lang-switcher-btn[aria-expanded="true"] .lang-chevron { transform: rotate(180deg); }
+
+  .lang-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 160px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    z-index: 200;
+    animation: dropdown-in 0.15s ease;
+  }
+
+  @keyframes dropdown-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .lang-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.6rem 0.9rem;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    transition: background var(--transition-fast), color var(--transition-fast);
+    cursor: pointer;
+  }
+  .lang-option:hover { background: var(--color-surface-alt); color: var(--color-text); }
+  .lang-option--active { color: var(--color-text); }
+
+  .lang-option-code {
+    font-weight: 700;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.06em;
+    color: var(--color-primary);
+    min-width: 24px;
+  }
+  .lang-option--active .lang-option-code { color: var(--color-accent); }
+
+  .lang-option-label { flex: 1; }
+  .lang-option svg { color: var(--color-accent); margin-left: auto; }
+
+  /* ── Theme pill toggle ── */
+  .theme-pill {
+    display: flex;
+    align-items: center;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .theme-pill-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+  }
+  .theme-pill-btn:hover { color: var(--color-text); }
+
+  /* Active states */
+  :global([data-theme="light"]) .theme-pill-btn--light {
+    background: var(--gradient-brand);
+    color: white;
+    box-shadow: 0 2px 6px rgba(15,77,63,0.35);
+  }
+  :global([data-theme="dark"]) .theme-pill-btn--dark {
+    background: var(--gradient-brand);
+    color: white;
+    box-shadow: 0 2px 6px rgba(15,77,63,0.4);
+  }
+
+  /* ── Mobile ── */
+  .mobile-menu-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+  }
+  .mobile-menu-btn span {
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    background: var(--color-text);
+    border-radius: 2px;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+    transform-origin: center;
+  }
+  .mobile-menu-btn.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .mobile-menu-btn.is-open span:nth-child(2) { opacity: 0; }
+  .mobile-menu-btn.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  @media (min-width: 768px) { .mobile-menu-btn { display: none; } }
+
+  .mobile-menu {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-4) var(--space-6) var(--space-6);
+  }
+  .mobile-menu nav { display: flex; flex-direction: column; gap: var(--space-1); }
+  .mobile-nav-link {
+    display: block;
+    padding: var(--space-3) var(--space-2);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast);
+  }
+  .mobile-nav-link:hover { background: var(--color-surface-alt); }
+  .mobile-divider { height: 1px; background: var(--color-border); margin: var(--space-3) 0; }
+  .mobile-langs { display: flex; flex-direction: column; gap: var(--space-1); }
+  .mobile-lang-link {
+    display: block;
+    padding: var(--space-2) var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    border-radius: var(--radius-sm);
+  }
+  .mobile-lang-link.active { color: var(--color-accent); font-weight: 600; }
+</style>

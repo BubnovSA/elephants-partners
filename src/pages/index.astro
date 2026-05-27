@@ -1,0 +1,31 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/sections/Hero.astro';
+import Services from '@/components/sections/Services.astro';
+import MarketStats from '@/components/sections/MarketStats.astro';
+import WhyIndia from '@/components/sections/WhyIndia.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import FromGround from '@/components/sections/FromGround.astro';
+import UseCases from '@/components/sections/UseCases.astro';
+import Testimonials from '@/components/sections/Testimonials.astro';
+import CtaBlock from '@/components/sections/CtaBlock.astro';
+import { en } from '@/i18n/en';
+
+const t = en;
+---
+
+<BaseLayout
+  title="Elephants Partners — Payment Infrastructure for Emerging Markets"
+  description="UPI payment processing, settlement solutions, and merchant services for international companies entering India. Same-day settlement. Multi-bank infrastructure. 24/7 monitoring."
+  t={t}
+>
+  <Hero t={t} TELEGRAM_URL="https://t.me/elephantpartners" />
+  <Services t={t} />
+  <MarketStats t={t} />
+  <WhyIndia t={t} />
+  <HowItWorks t={t} />
+  <FromGround t={t} />
+  <UseCases t={t} />
+  <Testimonials t={t} />
+  <CtaBlock t={t} />
+</BaseLayout>

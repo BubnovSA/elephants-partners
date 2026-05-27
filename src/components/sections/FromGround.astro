@@ -1,0 +1,272 @@
+---
+import type { Translations } from '@/i18n/en';
+
+interface Props { t: Translations }
+const { t } = Astro.props;
+
+const milestoneIcons = [
+  `<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>`,
+  `<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/>`,
+  `<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>`,
+];
+
+const subheadingLines = t.fromGround.subheading.split('\n');
+---
+
+<section class="from-ground section" aria-labelledby="from-ground-heading">
+  <div class="container">
+    <div class="from-ground-inner">
+
+      <!-- Text column -->
+      <div class="from-ground-text">
+        <span class="eyebrow">{t.fromGround.eyebrow}</span>
+        <span class="rule"></span>
+        <h2 id="from-ground-heading" class="heading-2">
+          {t.fromGround.heading[0]}<br>
+          {t.fromGround.heading[1]} {t.fromGround.heading[2]}
+        </h2>
+        <p class="from-ground-sub body-lg">
+          {subheadingLines[0]}<br>
+          {subheadingLines[1]}
+        </p>
+
+        <ul class="milestones" role="list">
+          {t.fromGround.milestones.map((text, i) => (
+            <li class="milestone-item">
+              <div class="milestone-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <Fragment set:html={milestoneIcons[i]} />
+                </svg>
+              </div>
+              <p class="milestone-text">{text}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div class="from-ground-insight">
+          <div class="insight-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <p>
+            {t.fromGround.insight}
+            <strong> {t.fromGround.insightStrong}</strong>
+          </p>
+        </div>
+
+        <div class="from-ground-sub-stats">
+          {t.fromGround.subStats.map(({ label, note }) => (
+            <div class="sub-stat">
+              <span class="sub-stat-label">{label}</span>
+              <span class="sub-stat-note">{note}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Photo -->
+      <div class="from-ground-photo">
+        <div class="photo-placeholder">
+          <img
+            src={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/assets/talk.webp`}
+            alt={t.fromGround.photoAlt}
+            class="photo-img"
+            loading="lazy"
+            decoding="async"
+            width="1200"
+            height="675"
+          />
+          <div class="photo-overlay">
+            <span>{t.fromGround.photoTeam}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .from-ground {
+    background: linear-gradient(160deg, #F8F5EC 0%, #EDEAE0 60%, #F5F1E8 100%);
+    background-image:
+      radial-gradient(ellipse 60% 55% at 100% 0%,  rgba(45,138,106,0.18) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 35% at  0% 100%, rgba(160,110,30,0.09)  0%, transparent 45%);
+  }
+  :global([data-theme="dark"]) .milestone-icon {
+    background: rgba(61,170,133,0.15);
+  }
+  :global([data-theme="dark"]) .from-ground {
+    background: var(--color-bg);
+    background-image: none;
+  }
+
+  .from-ground-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .from-ground-inner {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+    }
+  }
+
+  .from-ground-text .rule { margin-bottom: var(--space-4); }
+  .from-ground-text h2 { margin-bottom: var(--space-4); }
+
+  .from-ground-sub {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+
+  /* Milestones */
+  .milestones {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .milestone-item {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .milestone-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgba(45,138,106,0.1);
+    border-radius: var(--radius-sm);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .milestone-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    line-height: var(--line-height-normal);
+    padding-top: 0.25rem;
+  }
+
+  /* Insight block */
+  .from-ground-insight {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-6);
+  }
+
+  .insight-icon {
+    color: var(--color-accent);
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  .from-ground-insight p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-normal);
+  }
+
+  .from-ground-insight strong {
+    color: var(--color-text);
+  }
+
+  :global([data-theme="dark"]) .from-ground-insight {
+    background: var(--color-surface-dark);
+    border-color: transparent;
+    color: var(--color-text-inv);
+  }
+  :global([data-theme="dark"]) .insight-icon { color: var(--color-accent-light); }
+  :global([data-theme="dark"]) .from-ground-insight p { color: var(--color-text-inv-muted); }
+  :global([data-theme="dark"]) .from-ground-insight strong { color: var(--color-text-inv); }
+
+  /* Sub-stats */
+  .from-ground-sub-stats {
+    display: flex;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .sub-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sub-stat-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .sub-stat-note {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+
+  /* Photo */
+  .from-ground-photo {
+    order: -1;
+  }
+
+  @media (min-width: 1024px) {
+    .from-ground-photo { order: 1; }
+  }
+
+  .photo-placeholder {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .photo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    z-index: 0;
+  }
+
+  .photo-overlay {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: var(--space-5);
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    color: white;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+</style>

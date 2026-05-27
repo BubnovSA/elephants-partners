@@ -1,0 +1,96 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { hi } from '@/i18n/hi';
+const t = hi;
+const a = t.about;
+---
+
+<BaseLayout
+  title="Elephants Partners के बारे में — पेमेंट इन्फ्रास्ट्रक्चर कंपनी"
+  description="Elephants Partners भारत में प्रवेश करने वाले अंतर्राष्ट्रीय व्यवसायों के लिए पेमेंट इन्फ्रास्ट्रक्चर बनाता है।"
+  lang="hi"
+  canonical="https://elephants.partners/hi/about"
+  t={t}
+>
+  <section class="section about-hero">
+    <div class="container">
+      <span class="eyebrow">{a.eyebrow}</span>
+      <span class="rule"></span>
+      <h1 class="heading-1">
+        {a.h1[0]}<br>
+        <span class="accent">{a.h1[1]}</span>
+      </h1>
+      <p class="about-intro body-lg">{a.intro}</p>
+    </div>
+  </section>
+
+  <section class="section about-mission">
+    <div class="container">
+      <div class="about-mission-inner">
+        <div>
+          <h2 class="heading-2">{a.missionH2}</h2>
+          <p class="body-lg" style="color: var(--color-text-muted); margin-top: var(--space-4)">{a.mission1}</p>
+          <p class="body-lg" style="color: var(--color-text-muted); margin-top: var(--space-4)">{a.mission2}</p>
+        </div>
+        <div class="about-values">
+          {a.facts.map(({ label, value }) => (
+            <div class="about-value-item">
+              <span class="about-value-label">{label}</span>
+              <span class="about-value">{value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about-team" style="background: var(--color-surface-alt)">
+    <div class="container">
+      <span class="eyebrow">टीम</span>
+      <span class="rule"></span>
+      <h2 class="heading-2">{a.teamH2}</h2>
+      <div class="team-placeholder">
+        <p>{a.teamPlaceholder}</p>
+        <p>{a.teamPlaceholder2} <a href="mailto:partnerships@elephants.partners">partnerships@elephants.partners</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about-contact">
+    <div class="container">
+      <h2 class="heading-2">{a.contactH2}</h2>
+      <div class="about-contact-grid">
+        {a.cards.map(({ h3, p, btnLabel, btnHref, btnClass }) => (
+          <div class="card about-contact-card">
+            <h3>{h3}</h3>
+            <p>{p}</p>
+            <a href={btnHref} class={`btn ${btnClass}`}>{btnLabel}</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-hero { background: var(--color-bg); padding-bottom: var(--space-8); }
+  .about-hero .rule { margin-bottom: var(--space-5); }
+  .about-hero h1 { margin-bottom: var(--space-5); }
+  .about-intro { color: var(--color-text-muted); max-width: 620px; }
+  .about-mission-inner { display: grid; grid-template-columns: 1fr; gap: var(--space-10); align-items: start; }
+  @media (min-width: 1024px) { .about-mission-inner { grid-template-columns: 3fr 2fr; gap: var(--space-16); } }
+  .about-values { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+  .about-value-item { display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-4); background: var(--color-surface-alt); border-radius: var(--radius-md); border: 1px solid var(--color-border); }
+  .about-value-label { font-size: var(--font-size-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+  .about-value { font-size: var(--font-size-lg); font-weight: 700; color: var(--color-primary); }
+  .about-team .rule { margin-bottom: var(--space-4); }
+  .about-team h2 { margin-bottom: var(--space-8); }
+  .team-placeholder { padding: var(--space-10); text-align: center; color: var(--color-text-muted); background: var(--color-surface); border: 1px dashed var(--color-border); border-radius: var(--radius-lg); font-size: var(--font-size-base); display: flex; flex-direction: column; gap: var(--space-2); }
+  .team-placeholder a { color: var(--color-accent); font-weight: 500; }
+  .about-contact h2 { margin-bottom: var(--space-8); }
+  .about-contact-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-5); }
+  @media (min-width: 640px) { .about-contact-grid { grid-template-columns: repeat(2, 1fr); } }
+  .about-contact-card { display: flex; flex-direction: column; gap: var(--space-3); }
+  .about-contact-card h3 { font-size: var(--font-size-lg); font-weight: 600; }
+  .about-contact-card p { font-size: var(--font-size-sm); color: var(--color-text-muted); flex: 1; }
+</style>

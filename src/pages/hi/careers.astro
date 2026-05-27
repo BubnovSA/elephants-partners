@@ -1,0 +1,125 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { hi } from '@/i18n/hi';
+const t = hi;
+const c = t.careers;
+const TELEGRAM_URL = 'https://t.me/elephantpartners';
+---
+
+<BaseLayout
+  title="Elephants Partners में करियर — Operations Executive, भारत"
+  description="Elephants Partners भारत में Operations Executive की तलाश कर रहा है। बैंकिंग पार्टनर्स के साथ काम करें। कोई fintech अनुभव जरूरी नहीं।"
+  lang="hi"
+  canonical="https://elephants.partners/hi/careers"
+  t={t}
+>
+  <section class="section careers-hero">
+    <div class="container">
+      <span class="eyebrow">{c.eyebrow}</span>
+      <span class="rule"></span>
+      <h1 class="heading-1">
+        {c.h1[0]}<br>
+        <span class="accent">{c.h1[1]}</span>{c.h1[2]}
+      </h1>
+      <p class="careers-intro body-lg">{c.intro}</p>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--color-surface-alt)">
+    <div class="container">
+      <div class="careers-grid">
+        <div class="job-posting">
+          <div class="job-tag-bar">
+            <span class="tag">खुली भर्ती</span>
+            <span class="job-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              {c.location}
+            </span>
+          </div>
+          <h2 class="heading-2">{c.role}</h2>
+
+          <div class="job-section">
+            <h3>{c.dutiesLabel}</h3>
+            <ul class="duties-list" role="list">
+              {c.duties.map(d => (
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                  {d}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="job-section">
+            <h3>{c.requirementsLabel}</h3>
+            <div class="requirements-chips">
+              {c.requirements.map(r => <span class="tag">{r}</span>)}
+            </div>
+          </div>
+
+          <div class="job-section">
+            <h3>{c.benefitsLabel}</h3>
+            <ul class="benefits-grid" role="list">
+              {c.benefits.map(({ label, note }) => (
+                <li class="benefit-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span><strong>{label}</strong>{note && <span class="benefit-note"> — {note}</span>}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="apply-block">
+            <p>{c.applyNote}</p>
+            <a href={TELEGRAM_URL} class="btn btn--primary btn--lg" target="_blank" rel="noopener noreferrer">{c.applyBtn}</a>
+            <a href="mailto:careers@elephants.partners" class="btn btn--outline">careers@elephants.partners</a>
+          </div>
+        </div>
+
+        <aside class="careers-sidebar">
+          <div class="card sidebar-card">
+            <h3>{c.aboutLabel}</h3>
+            <p>{c.aboutText}</p>
+            <dl class="sidebar-facts">
+              {c.sidebarFacts.map(({ label, value }) => (
+                <div><dt>{label}</dt><dd>{value}</dd></div>
+              ))}
+            </dl>
+            <a href="/hi/about" class="btn btn--outline" style="margin-top: var(--space-4)">{c.learnMore}</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .careers-hero { background: var(--color-bg); padding-bottom: var(--space-8); }
+  .careers-hero .rule { margin-bottom: var(--space-5); }
+  .careers-hero h1 { margin-bottom: var(--space-5); }
+  .careers-intro { color: var(--color-text-muted); max-width: 520px; margin-bottom: var(--space-4); }
+  .careers-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-8); align-items: start; }
+  @media (min-width: 1024px) { .careers-grid { grid-template-columns: 2fr 1fr; gap: var(--space-10); } }
+  .job-posting { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-8); display: flex; flex-direction: column; gap: var(--space-8); }
+  .job-tag-bar { display: flex; align-items: center; gap: var(--space-4); }
+  .job-location { display: flex; align-items: center; gap: var(--space-1); font-size: var(--font-size-sm); color: var(--color-text-muted); }
+  .job-section h3 { font-size: var(--font-size-xs); font-weight: 700; color: var(--color-primary); text-transform: uppercase; letter-spacing: .06em; margin-bottom: var(--space-4); }
+  .duties-list { display: flex; flex-direction: column; gap: var(--space-3); }
+  .duties-list li { display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--font-size-base); color: var(--color-text); }
+  .duties-list li svg { color: var(--color-accent); flex-shrink: 0; margin-top: 4px; }
+  .requirements-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .benefits-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-3); }
+  @media (min-width: 640px) { .benefits-grid { grid-template-columns: repeat(2, 1fr); } }
+  .benefit-item { display: flex; align-items: flex-start; gap: var(--space-2); font-size: var(--font-size-sm); }
+  .benefit-item svg { color: var(--color-accent); flex-shrink: 0; margin-top: 3px; }
+  .benefit-note { color: var(--color-text-muted); font-weight: 400; }
+  .apply-block { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .apply-block > p { width: 100%; font-size: var(--font-size-sm); color: var(--color-text-muted); }
+  .sidebar-card { display: flex; flex-direction: column; gap: var(--space-3); }
+  .sidebar-card h3 { font-size: var(--font-size-base); font-weight: 600; }
+  .sidebar-card > p { font-size: var(--font-size-sm); color: var(--color-text-muted); line-height: var(--line-height-normal); }
+  .sidebar-facts { display: flex; flex-direction: column; gap: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--color-border); }
+  .sidebar-facts div { display: flex; gap: var(--space-2); font-size: var(--font-size-sm); }
+  .sidebar-facts dt { color: var(--color-text-muted); flex-shrink: 0; }
+  .sidebar-facts dd { font-weight: 500; color: var(--color-text); }
+</style>

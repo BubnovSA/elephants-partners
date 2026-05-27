@@ -1,0 +1,138 @@
+---
+import type { Translations } from '@/i18n/en';
+
+interface Props { t: Translations }
+const { t } = Astro.props;
+
+const icons = [
+  `<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>`,
+  `<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>`,
+  `<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 14.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>`,
+  `<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>`,
+  `<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>`,
+  `<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`,
+];
+---
+
+<section class="section services-section" id="services" aria-labelledby="services-heading">
+  <div class="container">
+    <header class="section-header" data-reveal>
+      <span class="eyebrow">{t.services.eyebrow}</span>
+      <h2 id="services-heading" class="heading-2" style="margin-top: var(--space-4)">
+        {t.services.heading[0]}<br>
+        <span class="accent">{t.services.heading[1]}</span>
+      </h2>
+      <p class="section-desc body-lg" style="margin-top: var(--space-4)">
+        {t.services.description}
+      </p>
+    </header>
+
+    <ul class="services-grid" role="list">
+      {t.services.items.map(({ num, tag, title, desc }, index) => (
+        <li class="service-card card card--accent" data-reveal={`delay-${(index % 3) + 1}`}>
+          <div class="service-top">
+            <div class="service-num">{num}</div>
+            <span class="service-tag tag">{tag}</span>
+          </div>
+          <div class="service-icon-wrap">
+            <div class="icon-box icon-box--lg">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <Fragment set:html={icons[index]} />
+              </svg>
+            </div>
+          </div>
+          <h3 class="service-title">{title}</h3>
+          <p class="service-desc">{desc}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services-section {
+    background: linear-gradient(170deg, #FDFCF8 0%, #F2EDE0 100%);
+    background-image:
+      radial-gradient(ellipse 50% 50% at 0% 0%, rgba(45,138,106,0.12) 0%, transparent 45%),
+      radial-gradient(ellipse 40% 40% at 100% 100%, rgba(160,110,30,0.08) 0%, transparent 45%);
+  }
+  :global([data-theme="dark"]) .services-section {
+    background: var(--color-bg);
+    background-image: none;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  @media (min-width: 600px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .services-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-5); } }
+
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+    padding: var(--space-6);
+    /* Subtle gradient fill */
+    background: linear-gradient(145deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+  }
+  .service-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+    background: linear-gradient(145deg, var(--color-surface) 0%, #f0ebe0 100%);
+  }
+  :global([data-theme="dark"]) .service-card {
+    background: linear-gradient(145deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+  }
+  :global([data-theme="dark"]) .service-card:hover {
+    background: linear-gradient(145deg, var(--color-surface-card) 0%, var(--color-surface) 100%);
+  }
+  :global([data-theme="dark"]) .service-card .icon-box {
+    background: linear-gradient(145deg, rgba(61,170,133,0.18) 0%, rgba(42,122,94,0.12) 100%);
+    border-color: rgba(61,170,133,0.2);
+    box-shadow: none;
+  }
+
+  .service-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .service-num {
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    color: var(--color-text-faint);
+    letter-spacing: 0.06em;
+  }
+
+  .service-tag {
+    font-size: 0.6rem;
+    padding: 0.2em 0.7em;
+  }
+
+  .service-icon-wrap { margin-top: var(--space-1); }
+
+  .service-card .icon-box {
+    background: linear-gradient(145deg, rgba(45,138,106,0.18) 0%, rgba(15,77,63,0.08) 100%);
+    border: 1px solid rgba(45,138,106,0.18);
+    box-shadow: 0 2px 8px rgba(45,138,106,0.12);
+  }
+
+  .service-title {
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .service-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    flex: 1;
+  }
+</style>

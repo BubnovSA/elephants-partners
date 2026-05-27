@@ -1,0 +1,12 @@
+{
+  "name": "Elephants Partners",
+  "short_name": "Elephants Partners",
+  "description": "Payment Infrastructure for Emerging Markets",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F5F1E8",
+  "theme_color": "#0F4D3F",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" }
+  ]
+}

@@ -1,0 +1,217 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const TELEGRAM_URL = 'https://t.me/elephantpartners';
+---
+
+<BaseLayout
+  title="Contact Elephants Partners — UPI Payment Infrastructure"
+  description="Get in touch with Elephants Partners. Discuss UPI payment processing for your business entering India. Offices in Europe and India."
+>
+  <section class="section contact-hero">
+    <div class="container">
+      <span class="eyebrow">Contact us</span>
+      <span class="rule"></span>
+      <h1 class="heading-1">Let's talk<br><span class="accent">payment infrastructure</span></h1>
+      <p class="contact-intro body-lg">
+        Tell us about your business and what you need in India.
+        Our team responds within one business day.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--color-surface-alt)">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Contact methods -->
+        <div class="contact-methods">
+          <h2 class="heading-3">Reach us directly</h2>
+
+          <div class="contact-card card">
+            <div class="contact-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+              </svg>
+            </div>
+            <div>
+              <h3>Telegram (fastest)</h3>
+              <p>Our team is active on Telegram. Start a conversation and get a response same day.</p>
+              <a href={TELEGRAM_URL} class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+                Open Telegram chat
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-card card">
+            <div class="contact-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <h3>Partnerships</h3>
+              <p>For commercial inquiries and integration discussions.</p>
+              <a href="mailto:partnerships@elephants.partners" class="contact-email">
+                partnerships@elephants.partners
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-card card">
+            <div class="contact-card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <h3>Locations</h3>
+              <address style="font-style: normal">
+                <p><strong>Operations:</strong> India</p>
+                <p><strong>Headquarters:</strong> Europe</p>
+              </address>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="contact-faq">
+          <h2 class="heading-3">Common questions</h2>
+          <dl class="faq-list">
+            {[
+              {
+                q: 'How long does setup take?',
+                a: 'Typically 2–4 weeks from first conversation to processing live transactions, depending on your existing infrastructure and documentation readiness.',
+              },
+              {
+                q: 'What businesses do you work with?',
+                a: 'E-commerce, SaaS, digital services, and financial technology providers that need to accept or send payments in India. Minimum viable volumes vary — reach out to discuss.',
+              },
+              {
+                q: 'Do you handle compliance?',
+                a: 'Yes. Our local operations team handles banking compliance, account setup, and ongoing regulatory requirements on your behalf.',
+              },
+              {
+                q: 'What payment methods do you support?',
+                a: 'UPI Pay-In for receiving payments. IMPS, RTGS, and NEFT for Pay-Out distributions. Covering the major Indian digital payment rails.',
+              },
+            ].map(({ q, a }) => (
+              <div class="faq-item">
+                <dt class="faq-q">{q}</dt>
+                <dd class="faq-a">{a}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-hero {
+    background: var(--color-bg);
+    padding-bottom: var(--space-8);
+  }
+
+  .contact-hero .rule { margin-bottom: var(--space-5); }
+  .contact-hero h1 { margin-bottom: var(--space-5); }
+
+  .contact-intro {
+    color: var(--color-text-muted);
+    max-width: 480px;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .contact-grid { grid-template-columns: 1fr 1fr; gap: var(--space-12); }
+  }
+
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .contact-methods h2 { margin-bottom: var(--space-2); }
+
+  .contact-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .contact-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(45,138,106,0.1);
+    border-radius: var(--radius-md);
+    color: var(--color-accent);
+    flex-shrink: 0;
+    fill: currentColor;
+  }
+
+  .contact-card h3 {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-2);
+  }
+
+  .contact-card p, .contact-card address {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+    line-height: var(--line-height-normal);
+  }
+
+  .contact-card address p + p { margin-top: var(--space-1); }
+
+  .contact-email {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* FAQ */
+  .contact-faq h2 { margin-bottom: var(--space-6); }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .faq-item {
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .faq-q {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .faq-a {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-loose);
+  }
+</style>
